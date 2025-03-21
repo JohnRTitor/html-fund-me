@@ -5,19 +5,17 @@
   env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git ];
+  packages = with pkgs; [
+    git
+    nodePackages_latest.live-server
+  ];
 
   # https://devenv.sh/languages/
-  # Provides `tsc`, `tsc test.ts` compiles TypeScript into JavaScript
-  # You can now use `node test.js` to run the compiled JavaScript file
-  languages.typescript.enable = true;
-
-  # Enables node and javascript support!
+  # Enables node and yarn support!
   languages.javascript = {
     enable = true;
     package = pkgs.nodejs_latest;
     corepack.enable = true;
-    npm.enable = true;
     # The package manager we will use
     # Yarn is better than Npm in terms of efficiency and speed
     yarn.enable = true;

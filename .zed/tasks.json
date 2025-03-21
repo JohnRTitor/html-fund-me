@@ -1,7 +1,7 @@
 [
   {
     "label": "Start server",
-    "command": "yarn dev",
+    "command": "live-server",
     // Whether to allow multiple instances of the same task to be run, or rather wait for the existing ones to finish, defaults to `false`.
     "allow_concurrent_runs": false,
     "reveal": "never",
