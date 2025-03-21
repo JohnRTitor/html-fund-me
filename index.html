@@ -5,23 +5,7 @@
     </head>
     <body>
         <h1>Hello Word!</h1>
-        <script>
-            async function connectWallet() {
-                if (typeof window.ethereum !== "undefined") {
-                    // request to connect wallet
-                    await window.ethereum.request({
-                        method: "eth_requestAccounts",
-                    });
-                    // change button text and disable it after connecting successfully
-                    document.getElementById("connectButton").innerText =
-                        "Connected";
-                    document.getElementById("connectButton").disabled = true;
-                } else {
-                    document.getElementById("connectButton").innerText =
-                        "Please install MetaMask!";
-                }
-            }
-        </script>
+        <script src="index.js" type="text/javascript"></script>
         <button id="connectButton" onclick="connectWallet()">Connect</button>
     </body>
 </html>
