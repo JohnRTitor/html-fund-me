@@ -15,6 +15,7 @@
   # Enables node and javascript support!
   languages.javascript = {
     enable = true;
+    package = pkgs.nodejs_latest;
     corepack.enable = true;
     npm.enable = true;
     # The package manager we will use
