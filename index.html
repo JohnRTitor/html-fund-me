@@ -6,9 +6,19 @@
     <body>
         <h1>Hello Word!</h1>
         <script>
-            if (typeof window.ethereum !== "undefined")
-                console.log("I see a metamask!");
-            else console.log("No metamask!");
+            async function connectWallet() {
+                if (typeof window.ethereum !== "undefined") {
+                    // request to connect wallet
+                    await window.ethereum.request({
+                        method: "eth_requestAccounts",
+                    });
+                    console.log("Wallet connected!");
+                } else {
+                    console.log("No metamask!");
+                    return;
+                }
+            }
         </script>
+        <button id="connectButton" onclick="connectWallet()">Connect</button>
     </body>
 </html>
