@@ -12,10 +12,13 @@
                     await window.ethereum.request({
                         method: "eth_requestAccounts",
                     });
-                    console.log("Wallet connected!");
+                    // change button text and disable it after connecting successfully
+                    document.getElementById("connectButton").innerText =
+                        "Connected";
+                    document.getElementById("connectButton").disabled = true;
                 } else {
-                    console.log("No metamask!");
-                    return;
+                    document.getElementById("connectButton").innerText =
+                        "Please install MetaMask!";
                 }
             }
         </script>
