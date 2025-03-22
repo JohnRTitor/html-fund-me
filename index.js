@@ -1,4 +1,5 @@
 import { ethers } from "./ethers-6.7.0-min.js";
+import { abi, contractAddress } from "./constants.js";
 
 const connectButton = document.getElementById("connectButton");
 const fundButton = document.getElementById("fundButton");
@@ -26,12 +27,26 @@ async function connectWallet() {
 
 // fund function
 
-async function fund(ethAmount) {
-  console.log(`Funding with ${ethAmount} ETH...`);
-  if (typeof window.ethereum !== "undefined") {
-    // We need - provider/connection to the blockcahin
-    // Signer/wallet/someone with gas
-    // contracts that we are gonna interact with
-    // ^ ABI & Address
+async function fund() {
+  const ethAmount = 0.2;
+  if (typeof window.ethereum === "undefined") {
+    console.log("Metamask is not installed.");
+    return;
   }
+
+  console.log(`Funding with ${ethAmount} ETH...`);
+  // We need - provider/connection to the blockcahin
+  // Signer/wallet/someone with gas
+  // contracts that we are gonna interact with
+  // ^ ABI & Address
+  const provider = new ethers.BrowserProvider(window.ethereum);
+
+  const signer = await provider.getSigner();
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  const tx = await contract.fund({
+    value: ethers.parseEther(`${ethAmount}`),
+  });
+
+  console.log(contract);
 }
