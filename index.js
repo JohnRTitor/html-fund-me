@@ -44,9 +44,32 @@ async function fund() {
   const signer = await provider.getSigner();
   const contract = new ethers.Contract(contractAddress, abi, signer);
 
-  const tx = await contract.fund({
-    value: ethers.parseEther(`${ethAmount}`),
-  });
+  try {
+    const tx = await contract.fund({
+      value: ethers.parseEther(`${ethAmount}`),
+    });
+    await listenForTransactionMine(tx, provider);
+    console.log("Done!");
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-  console.log(contract);
+async function listenForTransactionMine(transactionResponse, provider) {
+  console.log(`Mining ${transactionResponse.hash}...`);
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const receipt = await provider.waitForTransaction(
+        transactionResponse.hash,
+      );
+      const confirmations =
+        (await provider.getBlockNumber()) - receipt.blockNumber + 1;
+      console.log(`Completed with ${confirmations} confirmations`);
+      resolve();
+    } catch (error) {
+      console.log("Error while waiting for transaction confirmation:", error);
+      reject(error);
+    }
+  });
 }
