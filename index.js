@@ -4,9 +4,12 @@ import { abi, contractAddress } from "./constants.js";
 const connectButton = document.querySelector("#connectButton");
 const fundButton = document.querySelector("#fundButton");
 const balanceButton = document.querySelector("#balanceButton");
+const withdrawButton = document.querySelector("#withdrawButton");
+
 connectButton.onclick = connectWallet;
 fundButton.onclick = fund;
 balanceButton.onclick = getBalance;
+withdrawButton.onclick = withdraw;
 
 async function connectWallet() {
   if (typeof window.ethereum === "undefined") {
@@ -59,6 +62,7 @@ async function fund() {
   const contract = new ethers.Contract(contractAddress, abi, signer);
 
   try {
+    console.log("Funding...");
     const tx = await contract.fund({
       value: ethers.parseEther(`${ethAmount}`),
     });
@@ -89,4 +93,24 @@ async function listenForTransactionMine(transactionResponse, provider) {
       reject(error);
     }
   });
+}
+
+async function withdraw() {
+  if (typeof window.ethereum === "undefined") {
+    console.log("Metamask is not installed.");
+    return;
+  }
+  const provider = new ethers.BrowserProvider(window.ethereum);
+
+  const signer = await provider.getSigner();
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  try {
+    console.log("Withdrawing...");
+    const tx = await contract.withdraw();
+    await listenForTransactionMine(tx, provider);
+    console.log("Done!");
+  } catch (error) {
+    console.log(error);
+  }
 }
