@@ -28,11 +28,12 @@ async function connectWallet() {
 // fund function
 
 async function fund() {
-  const ethAmount = 0.2;
   if (typeof window.ethereum === "undefined") {
     console.log("Metamask is not installed.");
     return;
   }
+
+  const ethAmount = document.querySelector("#ethAmount").value;
 
   console.log(`Funding with ${ethAmount} ETH...`);
   // We need - provider/connection to the blockcahin
